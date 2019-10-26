@@ -38,62 +38,86 @@
 </head>
 <body>
 <div class="container">
-    <form class="col s12" method="post">
-        {{ form.csrf_token }}
-        <div class="row">
-            <div class="input-field col s9">
-                {{ form.url(id='url',class='validate',placeholder='URL') }}
-                {{ form.url.label() }}
-            </div>
-            <div class="input-field col s3">
-                <input type="submit" class="btn waves-effect waves-light" name="Load" value="Load Selector"
-                       onclick="genThumbnail($('#url').val())">
-            </div>
+    <div class="row">
+        <div class="col s5">
+            {% for commission in gallery_Json["commissions"] %}
+                <div class="col xl6 l12 s12 ">
+                    <div class="card small">
+                        <div class="card-image ">
+                            <img src="{{ commission["url"] }}">
+                        </div>
+                        <div class="card-content">
+                            <p>{{ commission["title"] }}</p>
+                        </div>
+                        <div class="card-action">
+                            <a href="/CommissionConfig?id={{ commission["id"] }}">Config...</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        <div class="input-field col s12">
-            {{ form.title(id='title',class='validate materialize-textarea"',placeholder='Title') }}
-            {{ form.title.label() }}
+
+        <div class="col s7">
+            <form class="col s12" method="post">
+                {{ form.csrf_token }}
+                <div class="input-field col s12">
+                    <div class="row">
+                        <div class="input-field col s8">
+                            {{ form.url(id='url',class='validate',placeholder='URL') }}
+                            {{ form.url.label() }}
+                        </div>
+                        <div class="input-field col">
+                            <input type="submit" class="btn waves-effect waves-light" name="Load" value="Load Selector"
+                                   onclick="genThumbnail($('#url').val())">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field col s12">
+                    {{ form.title(id='title',class='validate materialize-textarea"',placeholder='Title') }}
+                    {{ form.title.label() }}
+                </div>
+                <div class="input-field col s12">
+                    {{ form.author(id='author',class='validate',placeholder='Author') }}
+                    {{ form.author.label() }}
+                </div>
+                <div class="input-field col s12">
+                    {{ form.type(id='type',class='validate',placeholder='Type') }}
+                    {{ form.type.label() }}
+                </div>
+                <div>
+                    <canvas id="posCanvas"></canvas>
+                    <div class="row">
+                        <div class="input-field col s2">
+                            {{ form.thumbnailBX(id='imgStartPointX',type="text",placeholder='imgStartPointX') }}
+                            {{ form.thumbnailBX.label() }}
+                        </div>
+                        <div class="input-field col s2">
+                            {{ form.thumbnailBY(id='imgStartPointY',type="text",placeholder='imgStartPointY') }}
+                            {{ form.thumbnailBY.label() }}
+                        </div>
+                        <div class="input-field col s2">
+                            <input placeholder="imgEndPointX" type="text" id="imgEndPointX">
+                            <label for="imgEndPointX">末端X坐标</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <input placeholder="imgEndPointY" type="text" id="imgEndPointY">
+                            <label for="imgEndPointY">末端Y坐标</label>
+                        </div>
+                        <div class="input-field col s2">
+                            {{ form.thumbnailWidth(id='SelectWidth',type="text",placeholder='SelectWidth') }}
+                            {{ form.thumbnailWidth.label() }}
+                        </div>
+                        <div class="input-field col s2">
+                            {{ form.thumbnailHeight(id='SelectHeight',type="text",placeholder='SelectHeight') }}
+                            {{ form.thumbnailHeight.label() }}
+                        </div>
+                    </div>
+                </div>
+                <input class="btn waves-effect waves-light red lighten-2" id="submit" name="submit" type="submit">
+            </form>
         </div>
-        <div class="input-field col s12">
-            {{ form.author(id='author',class='validate',placeholder='Author') }}
-            {{ form.author.label() }}
-        </div>
-        <div class="input-field col s12">
-            {{ form.type(id='type',class='validate',placeholder='Type') }}
-            {{ form.type.label() }}
-        </div>
-        <div>
-            <canvas id="posCanvas"></canvas>
-            <div class="row">
-                <div class="input-field col s2">
-                    {{ form.thumbnailBX(id='imgStartPointX',type="text",placeholder='imgStartPointX') }}
-                    {{ form.thumbnailBX.label() }}
-                </div>
-                <div class="input-field col s2">
-                    {{ form.thumbnailBY(id='imgStartPointY',type="text",placeholder='imgStartPointY') }}
-                    {{ form.thumbnailBY.label() }}
-                </div>
-                <div class="input-field col s2">
-                    <input placeholder="imgEndPointX" type="text" id="imgEndPointX">
-                    <label for="imgEndPointX">末端X坐标</label>
-                </div>
-                <div class="input-field col s2">
-                    <input placeholder="imgEndPointY" type="text" id="imgEndPointY">
-                    <label for="imgEndPointY">末端Y坐标</label>
-                </div>
-                <div class="input-field col s2">
-                    {{ form.thumbnailWidth(id='SelectWidth',type="text",placeholder='SelectWidth') }}
-                    {{ form.thumbnailWidth.label() }}
-                </div>
-                <div class="input-field col s2">
-                    {{ form.thumbnailHeight(id='SelectHeight',type="text",placeholder='SelectHeight') }}
-                    {{ form.thumbnailHeight.label() }}
-                </div>
-            </div>
-        </div>
-        <input class="btn waves-effect waves-light red lighten-2" id="submit" name="submit" type="submit">
-    </form>
+    </div>
 </div>
-</div>
+
 </body>
 </html>

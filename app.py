@@ -24,7 +24,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=1)
 
-with open('gallery_list_new.json',encoding='utf-8') as f:
+with open('gallery_list.json',encoding='utf-8') as f:
     gallery_JSON = json.load(f)
 
 @app.route('/gallery_list')
@@ -68,8 +68,23 @@ def opForm():
                 "type": type,
                 "description": description
             }
-            gallery_JSON["commissions"].append(appendContent)
-            with open('gallery_list_new.json', 'w') as f:
+            appendContent2 = {
+                "id": 41,
+                "url": url,
+                "thumbnailInfo": {
+                    "beginPointX": beginPointX,
+                    "beginPointY": beginPointY,
+                    "cutWidth": thumbnailWidth,
+                    "cutHeight": thumbnailHeight
+                },
+                "title": title,
+                "author": author,
+                "type": type,
+                "description": description
+            }
+            gallery_JSON["commissions"][4] = appendContent2
+            # gallery_JSON["commissions"].append(appendContent)
+            with open('gallery_list.json', 'w') as f:
                 json.dump(gallery_JSON, f, indent=4)
             return render_template('commissionConfig.html', gallery_Json=gallery_JSON, form=form)
         return ('', 204)
