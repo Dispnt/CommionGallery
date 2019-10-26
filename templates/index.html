@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block gallery %}
+    <!-- Navbar and Header -->
+    <nav class="nav-extended">
+        <div class="nav-background">
+            <div class="pattern active"
+                 style="background-image: url('http://wx4.sinaimg.cn/large/69590277gy1g1qpw59db4j213y09x0w8.jpg');"></div>
+        </div>
+        <div class="nav-wrapper container">
+            <a href="index.html" class="brand-logo"><i class="material-icons">pets</i>{{ gallery_Json["album"]["greeting"] }}</a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li class="active"><a href="index.html">Gallery</a></li>
+                <li><a href="/config">Config...</a></li>
+            </ul>
+
+            <div class="nav-header center">
+                <h1>{{ gallery_Json["album"]["name"] }}</h1>
+                <div class="tagline">{{ gallery_Json["album"]["tagline"] }}</div>
+            </div>
+        </div>
+
+        <div class="categories-wrapper purple lighten-1">
+            <div class="categories-container">
+                <ul class="categories container">
+                    <li class="active"><a href="#all">All</a></li>
+                    <li><a href="#Illustration">Illustration</a></li>
+                    <li><a href="#YCH">YCH</a></li>
+                    <li><a href="#Avatar">Avatar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <ul class="side-nav" id="nav-mobile">
+        <li class="active"><a href="index.html"><i class="material-icons">camera</i>Gallery</a></li>
+        <li><a href="http://fofu.dispnt.com/old/index.html"><i class="material-icons">settings</i>Config...</a>
+        </li>
+    </ul>
+
+    <div id="portfolio" class="section gray">
+        <div class="container">
+            <div class="gallery row">
+                <div class="col l4 m6 s12 gallery-item gallery-filter all">
+                    <div class="card orange darken-3">
+                        <div class="card-content white-text">
+                            <span class="card-title">About</span>
+                            <p>
+                                <b>施工中...</b>
+                                <br>Part of the artworks copyright belong to the original artist.</p>
+                        </div>
+                        <div class="card-action ">
+                            <a href="https://fofu.dispnt.com">"fofu"</a>
+                            <a href="https://www.dispnt.com">Main Page</a>
+                        </div>
+                    </div>
+                </div>
+
+        {% for commission in gallery_Json["commissions"] %}
+                <div class="col l4 m6 s12 gallery-item gallery-expand gallery-filter Reference-Sheet {{ commission["type"] }}">
+        <div class="gallery-curve-wrapper">
+            <a class="gallery-cover gray">
+                {% if commission["thumbnailInfo"] %}
+                    <canvas class="responsive-img" id="Thumbnail-{{ commission["id"] }}"></canvas>
+                    <script>genThumbnail("Thumbnail-{{ commission['id'] }}","{{ commission["url"] }}",{{commission["thumbnailInfo"]["beginPointX"]}},{{commission["thumbnailInfo"]["beginPointY"]}},{{commission["thumbnailInfo"]["cutWidth"]}},{{commission["thumbnailInfo"]["cutHeight"]}})</script>
+                {% else %}
+                    <img class="responsive-img" src="{{ commission["url"] }}" alt="placeholder">
+                {% endif %}
+            </a>
+            <div class="gallery-header">
+                <span>{{ commission["title"] }}</span>
+            </div>
+            <div class="gallery-body">
+                <div class="title-wrapper">
+                    <h3>{{ commission["title"] }}</h3>
+                    <span class="author">{{ commission["author"] }}</span>
+                </div>
+                {% if commission["description"]!="False" %}
+                <p class="description">
+                    {{ commission["description"] }}
+                </p>
+                {% endif %}
+{#                <div class="carousel-wrapper">#}
+{#                    <div class="carousel">#}
+{#                        <a class="carousel-item" href="#one!"><img src="http://placehold.it/300x200"></a>#}
+{#                        <a class="carousel-item" href="#two!"><img src="http://placehold.it/300x200"></a>#}
+{#                        <a class="carousel-item" href="#three!"><img src="http://placehold.it/300x200"></a>#}
+{#                        <a class="carousel-item" href="#four!"><img src="http://placehold.it/300x200"></a>#}
+{#                        <a class="carousel-item" href="#five!"><img src="http://placehold.it/300x200"></a>#}
+{#                    </div>#}
+{#                </div>#}
+            </div>
+    </div>
+
+    </div>
+            {% endfor %}
+{% endblock %}

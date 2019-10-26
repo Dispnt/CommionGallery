@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link href='http://fonts.lug.ustc.edu.cn/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link href="{{ url_for('static', filename='css/gallery-materialize.min.css') }}" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css" rel="stylesheet">
+    <script>window.jQuery || document.write('<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"><\/script>')</script>
+    <script src="{{ url_for('static', filename='js/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/masonry.pkgd.min.js') }}"></script>
+    <script src="https://cdn.bootcss.com/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="{{ url_for('static', filename='js/color-thief.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/galleryExpand.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/init.js') }}"></script>
+    <script>
+        function genThumbnail(elementID, imgUrl, startx, starty, cutwidth, cutheight) {
+            let img = new Image();
+            img.src = imgUrl;
+            let canvas = document.getElementById(elementID)
+            let canvascontext = canvas.getContext('2d');
+            img.onload = function () {
+                $("#" + elementID).attr("width", cutwidth)
+                $("#" + elementID).attr("height", cutheight)
+                canvascontext.drawImage(img, startx, starty, cutwidth, cutheight, 0, 0, cutwidth, cutheight)
+            }
+        }
+    </script>
+</head>
+<body>
+{% block gallery %}{% endblock %}
+</body>
+</html>
