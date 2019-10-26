@@ -55,6 +55,19 @@
                     </div>
                 </div>
             {% endfor %}
+            <div class="col xl6 l12 s12 ">
+                <div class="card small">
+                    <div class="card-image ">
+                        <img src="{{ commission["url"] }}">
+                    </div>
+                    <div class="card-content">
+                        <p>{{ commission["title"] }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="/CommissionConfig?id={{ commission["id"] }}">Config...</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col s7">
