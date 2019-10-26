@@ -1,4 +1,4 @@
-# CommionGallery
+# CommissionGallery
 a simple gallery for put my commission artwork in without resize the original image as thumbnail
 
 一个委托相册，可以不用裁剪原图当缩略图的那种
