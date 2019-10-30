@@ -34,6 +34,29 @@
             })
         })
 
+        function loadImgJson(commID) {
+            if(typeof commID =="number")
+            {
+                commID = commID-1
+             $.getJSON('/gallery_list',function (data) {
+                 $("#id").val(commID)
+                 $("#url").val(data["commissions"][commID]["url"])
+                 $("#title").val(data["commissions"][commID]["title"])
+                 $("#author").val(data["commissions"][commID]["author"])
+                 $("#type").val(data["commissions"][commID]["type"])
+             })
+            $("#inputForm").show();
+            }
+            else
+            {
+                $("#id").val("New");
+                $("#url").val('')
+                 $("#title").val('')
+                 $("#author").val('')
+                 $("#type").val('')
+                $("#inputForm").show();
+            }
+        }
     </script>
 </head>
 <body>
@@ -41,7 +64,7 @@
     <div class="row">
         <div class="col s5">
             {% for commission in gallery_Json["commissions"] %}
-                <div class="col xl6 l12 s12 ">
+                <div class="col xl6 l6 s12 ">
                     <div class="card small">
                         <div class="card-image ">
                             <img src="{{ commission["url"] }}">
@@ -50,31 +73,24 @@
                             <p>{{ commission["title"] }}</p>
                         </div>
                         <div class="card-action">
-                            <a href="/CommissionConfig?id={{ commission["id"] }}">Config...</a>
+                            <a href="javascript:void(0);" onclick="loadImgJson({{ commission["id"] }})">Config...</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-            <div class="col xl6 l12 s12 ">
-                <div class="card small">
-                    <div class="card-image ">
-                        <img src="{{ commission["url"] }}">
-                    </div>
-                    <div class="card-content">
-                        <p>{{ commission["title"] }}</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="/CommissionConfig?id={{ commission["id"] }}">Config...</a>
-                    </div>
+            <div class="col xl6 l12 s12">
+                <div class="card-panel teal waves-effect waves-light red" onclick="loadImgJson('nmsl')">
+                    <span class="white-text">也可以自己添加</span>
                 </div>
             </div>
         </div>
 
         <div class="col s7">
-            <form class="col s12" method="post">
+            <form class="col s12" id="inputForm" method="post" style="display:none">
                 {{ form.csrf_token }}
                 <div class="input-field col s12">
                     <div class="row">
+                        {{ form.id(id='id',class='hide') }}
                         <div class="input-field col s8">
                             {{ form.url(id='url',class='validate',placeholder='URL') }}
                             {{ form.url.label() }}
