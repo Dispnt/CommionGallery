@@ -7,7 +7,7 @@ a simple gallery for put my commission artwork in without resize the original im
 
 还需要做的:
 
- - 配置页面修改之前添加的内容
+<del> - 配置页面修改之前添加的内容</del>
  - 一张成品内预览多张WIP作品
  - 配置界面预览缩略图范围
  - 配置页面内压缩上传图床
