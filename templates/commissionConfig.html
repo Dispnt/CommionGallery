@@ -10,8 +10,7 @@
         function genThumbnail(imgUrl) {
             let img = new Image();
             img.src = imgUrl;
-            let canvas = document.getElementById("posCanvas")
-            let canvascontext = canvas.getContext('2d');
+            let canvascontext = document.getElementById("posCanvas").getContext('2d')
             img.onload = function () {
                 $("#posCanvas").attr("width", img.width)
                 $("#posCanvas").attr("height", img.height)
@@ -23,6 +22,8 @@
         $(document).ready(function () {
             var canvas = document.getElementById("posCanvas")
             canvas.addEventListener('mousedown', function (e) {
+                canvas.getContext('2d').clearRect($("#imgStartPointX").val(),$("#imgStartPointY").val(),$("#SelectWidth").val(),$("#SelectHeight").val())
+                genThumbnail($("#url").val())
                 $("#imgStartPointX").val(e.offsetX)
                 $("#imgStartPointY").val(e.offsetY)
             })
@@ -30,7 +31,9 @@
                 $("#imgEndPointX").val(e.offsetX)
                 $("#imgEndPointY").val(e.offsetY)
                 $("#SelectWidth").val(Math.abs($("#imgStartPointX").val() * 1 - $("#imgEndPointX").val() * 1))
-                $("#SelectHeight").val(Math.abs($("#imgStartPointX").val() * 1 - $("#imgEndPointY").val() * 1))
+                $("#SelectHeight").val(Math.abs($("#imgStartPointY").val() * 1 - $("#imgEndPointY").val() * 1))
+                let canvascontext = document.getElementById("posCanvas").getContext('2d')
+                canvascontext.strokeRect($("#imgStartPointX").val(),$("#imgStartPointY").val(),$("#SelectWidth").val(),$("#SelectHeight").val());
             })
         })
 
@@ -38,23 +41,23 @@
             if(typeof commID =="number")
             {
                 commID = commID-1
-             $.getJSON('/gallery_list',function (data) {
-                 $("#id").val(commID)
-                 $("#url").val(data["commissions"][commID]["url"])
-                 $("#title").val(data["commissions"][commID]["title"])
-                 $("#author").val(data["commissions"][commID]["author"])
-                 $("#type").val(data["commissions"][commID]["type"])
-                 if(data["commissions"][commID]["thumbnailInfo"]) {
-                     $("#imgStartPointX").val(data["commissions"][commID]["thumbnailInfo"]["beginPointX"])
-                     $("#imgStartPointY").val(data["commissions"][commID]["thumbnailInfo"]["beginPointY"])
-                     $("#SelectWidth").val(data["commissions"][commID]["thumbnailInfo"]["cutWidth"])
-                     $("#SelectHeight").val(data["commissions"][commID]["thumbnailInfo"]["cutHeight"])
-                     $("#imgEndPointX").val(Math.abs($("#imgStartPointX").val() * 1 - $("#SelectWidth").val() * 1))
-                     $("#imgEndPointY").val(Math.abs($("#imgStartPointY").val() * 1 - $("#SelectHeight").val() * 1))
+                $.getJSON('/gallery_list',function (data) {
+                $("#id").val(commID)
+                $("#url").val(data["commissions"][commID]["url"])
+                $("#title").val(data["commissions"][commID]["title"])
+                $("#author").val(data["commissions"][commID]["author"])
+                $("#type").val(data["commissions"][commID]["type"])
+                if(data["commissions"][commID]["thumbnailInfo"]) {
+                    $("#imgStartPointX").val(data["commissions"][commID]["thumbnailInfo"]["beginPointX"])
+                    $("#imgStartPointY").val(data["commissions"][commID]["thumbnailInfo"]["beginPointY"])
+                    $("#SelectWidth").val(data["commissions"][commID]["thumbnailInfo"]["cutWidth"])
+                    $("#SelectHeight").val(data["commissions"][commID]["thumbnailInfo"]["cutHeight"])
+                    $("#imgEndPointX").val(Math.abs($("#imgStartPointX").val() * 1 - $("#SelectWidth").val() * 1))
+                    $("#imgEndPointY").val(Math.abs($("#imgStartPointY").val() * 1 - $("#SelectHeight").val() * 1))
+                    genThumbnail($("#url").val())
+                }
 
-                 }
-
-             })
+                })
             $("#inputForm").show();
             }
             else
