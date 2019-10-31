@@ -44,16 +44,23 @@
                  $("#title").val(data["commissions"][commID]["title"])
                  $("#author").val(data["commissions"][commID]["author"])
                  $("#type").val(data["commissions"][commID]["type"])
+                 if(data["commissions"][commID]["thumbnailInfo"]) {
+                     $("#imgStartPointX").val(data["commissions"][commID]["thumbnailInfo"]["beginPointX"])
+                     $("#imgStartPointY").val(data["commissions"][commID]["thumbnailInfo"]["beginPointY"])
+                     $("#SelectWidth").val(data["commissions"][commID]["thumbnailInfo"]["cutWidth"])
+                     $("#SelectHeight").val(data["commissions"][commID]["thumbnailInfo"]["cutHeight"])
+                     $("#imgEndPointX").val(Math.abs($("#imgStartPointX").val() * 1 - $("#SelectWidth").val() * 1))
+                     $("#imgEndPointY").val(Math.abs($("#imgStartPointY").val() * 1 - $("#SelectHeight").val() * 1))
+
+                 }
+
              })
             $("#inputForm").show();
             }
             else
             {
                 $("#id").val("New");
-                $("#url").val('')
-                 $("#title").val('')
-                 $("#author").val('')
-                 $("#type").val('')
+                $(".CommInfoInput").val('')
                 $("#inputForm").show();
             }
         }
@@ -73,7 +80,7 @@
                             <p>{{ commission["title"] }}</p>
                         </div>
                         <div class="card-action">
-                            <a href="javascript:void(0);" onclick="loadImgJson({{ commission["id"] }})">Config...</a>
+                            <a href="javascript:void(0);" onclick="loadImgJson({{ commission["id"] }});$('.CommInfoInput').val('');console.log('{{ commission["id"] }}');">Config...</a>
                         </div>
                     </div>
                 </div>
@@ -92,7 +99,7 @@
                     <div class="row">
                         {{ form.id(id='id',class='hide') }}
                         <div class="input-field col s8">
-                            {{ form.url(id='url',class='validate',placeholder='URL') }}
+                            {{ form.url(id='url',class='validate CommInfoInput',placeholder='URL') }}
                             {{ form.url.label() }}
                         </div>
                         <div class="input-field col">
@@ -102,42 +109,42 @@
                     </div>
                 </div>
                 <div class="input-field col s12">
-                    {{ form.title(id='title',class='validate materialize-textarea"',placeholder='Title') }}
+                    {{ form.title(id='title',class='validate materialize-textarea CommInfoInput',placeholder='Title') }}
                     {{ form.title.label() }}
                 </div>
                 <div class="input-field col s12">
-                    {{ form.author(id='author',class='validate',placeholder='Author') }}
+                    {{ form.author(id='author',class='validate CommInfoInput',placeholder='Author') }}
                     {{ form.author.label() }}
                 </div>
                 <div class="input-field col s12">
-                    {{ form.type(id='type',class='validate',placeholder='Type') }}
+                    {{ form.type(id='type',class='validate CommInfoInput',placeholder='Type') }}
                     {{ form.type.label() }}
                 </div>
                 <div>
                     <canvas id="posCanvas"></canvas>
                     <div class="row">
                         <div class="input-field col s2">
-                            {{ form.thumbnailBX(id='imgStartPointX',type="text",placeholder='imgStartPointX') }}
+                            {{ form.thumbnailBX(id='imgStartPointX',type="text",placeholder='imgStartPointX',class="CommInfoInput") }}
                             {{ form.thumbnailBX.label() }}
                         </div>
                         <div class="input-field col s2">
-                            {{ form.thumbnailBY(id='imgStartPointY',type="text",placeholder='imgStartPointY') }}
+                            {{ form.thumbnailBY(id='imgStartPointY',type="text",placeholder='imgStartPointY',class="CommInfoInput") }}
                             {{ form.thumbnailBY.label() }}
                         </div>
                         <div class="input-field col s2">
-                            <input placeholder="imgEndPointX" type="text" id="imgEndPointX">
+                            <input placeholder="imgEndPointX" type="text" id="imgEndPointX" class="CommInfoInput">
                             <label for="imgEndPointX">末端X坐标</label>
                         </div>
                         <div class="input-field col s2">
-                            <input placeholder="imgEndPointY" type="text" id="imgEndPointY">
+                            <input placeholder="imgEndPointY" type="text" id="imgEndPointY" class="CommInfoInput">
                             <label for="imgEndPointY">末端Y坐标</label>
                         </div>
                         <div class="input-field col s2">
-                            {{ form.thumbnailWidth(id='SelectWidth',type="text",placeholder='SelectWidth') }}
+                            {{ form.thumbnailWidth(id='SelectWidth',class="CommInfoInput",type="text",placeholder='SelectWidth') }}
                             {{ form.thumbnailWidth.label() }}
                         </div>
                         <div class="input-field col s2">
-                            {{ form.thumbnailHeight(id='SelectHeight',type="text",placeholder='SelectHeight') }}
+                            {{ form.thumbnailHeight(id='SelectHeight',class="CommInfoInput",type="text",placeholder='SelectHeight') }}
                             {{ form.thumbnailHeight.label() }}
                         </div>
                     </div>

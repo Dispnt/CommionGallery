@@ -9,7 +9,22 @@ import io
 import base64
 import json
 
+def ifImgorCanvas(appendContent):
+    form = NameForm()
+    beginPointX = form.thumbnailBX.data
+    beginPointY = form.thumbnailBY.data
+    thumbnailWidth = form.thumbnailWidth.data
+    thumbnailHeight = form.thumbnailHeight.data
+    if thumbnailWidth != "" and thumbnailHeight != "":
+        appendContent["thumbnailInfo"] = {
+            "beginPointX": beginPointX,
+            "beginPointY": beginPointY,
+            "cutWidth": thumbnailWidth,
+            "cutHeight": thumbnailHeight
+        }
+
 class NameForm(FlaskForm):
+    id = StringField('id', validators=[DataRequired()])
     url = StringField('图床链接', validators=[DataRequired()])
     author = StringField('画师')
     type = StringField('类型')
@@ -45,48 +60,32 @@ def opForm():
     form = NameForm()
     if form.validate_on_submit():
         if form.submit.data:
+            id = form.id.data
             url = form.url.data
             author = form.author.data
             type = form.type.data
             title = form.title.data
             description = form.title.data
-            beginPointX = form.thumbnailBX.data
-            beginPointY = form.thumbnailBY.data
-            thumbnailWidth = form.thumbnailWidth.data
-            thumbnailHeight = form.thumbnailHeight.data
             appendContent = {
-                "id": len(gallery_JSON["commissions"])+1,
                 "url": url,
-                "thumbnailInfo": {
-                    "beginPointX": beginPointX,
-                    "beginPointY": beginPointY,
-                    "cutWidth": thumbnailWidth,
-                    "cutHeight": thumbnailHeight
-                },
                 "title": title,
                 "author": author,
                 "type": type,
                 "description": description
             }
-            appendContent2 = {
-                "id": 41,
-                "url": url,
-                "thumbnailInfo": {
-                    "beginPointX": beginPointX,
-                    "beginPointY": beginPointY,
-                    "cutWidth": thumbnailWidth,
-                    "cutHeight": thumbnailHeight
-                },
-                "title": title,
-                "author": author,
-                "type": type,
-                "description": description
-            }
-            gallery_JSON["commissions"][4] = appendContent2
-            # gallery_JSON["commissions"].append(appendContent)
-            with open('gallery_list.json', 'w') as f:
-                json.dump(gallery_JSON, f, indent=4)
+            if id != "New":
+                appendContent["id"] = int(id) + 1
+                ifImgorCanvas(appendContent)
+                gallery_JSON["commissions"][int(id)] = appendContent
+            else:
+                appendContent["id"] = len(gallery_JSON["commissions"])+1
+                ifImgorCanvas(appendContent)
+                gallery_JSON["commissions"].append(appendContent)
+
+            with open('gallery_list.json', 'w', encoding='utf-8') as f:
+                json.dump(gallery_JSON, f, indent=4, ensure_ascii=False)
             return render_template('commissionConfig.html', gallery_Json=gallery_JSON, form=form)
+
         return ('', 204)
 
 if __name__ == '__main__':
