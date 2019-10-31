@@ -3,25 +3,23 @@ from datetime import timedelta
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
-from PIL import Image
-import urllib.request
-import io
-import base64
 import json
 
-def ifImgorCanvas(appendContent):
+def dictProcess(appendContent):
     form = NameForm()
-    beginPointX = form.thumbnailBX.data
-    beginPointY = form.thumbnailBY.data
-    thumbnailWidth = form.thumbnailWidth.data
-    thumbnailHeight = form.thumbnailHeight.data
-    if thumbnailWidth != "" and thumbnailHeight != "":
+    appendContent["url"] = form.url.data
+    if form.thumbnailWidth.data != "" and form.thumbnailHeight.data != "":
         appendContent["thumbnailInfo"] = {
-            "beginPointX": beginPointX,
-            "beginPointY": beginPointY,
-            "cutWidth": thumbnailWidth,
-            "cutHeight": thumbnailHeight
+            "beginPointX": form.thumbnailBX.data,
+            "beginPointY": form.thumbnailBY.data,
+            "cutWidth": form.thumbnailWidth.data,
+            "cutHeight": form.thumbnailHeight.data
         }
+    appendContent["type"] = form.type.data
+    appendContent["title"] = form.title.data
+    appendContent["author"] = form.author.data
+
+
 
 class NameForm(FlaskForm):
     id = StringField('id', validators=[DataRequired()])
@@ -39,7 +37,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=1)
 
-with open('gallery_list.json',encoding='utf-8') as f:
+with open('gallery_list.json', encoding='utf-8') as f:
     gallery_JSON = json.load(f)
 
 @app.route('/gallery_list')
@@ -60,26 +58,14 @@ def opForm():
     form = NameForm()
     if form.validate_on_submit():
         if form.submit.data:
-            id = form.id.data
-            url = form.url.data
-            author = form.author.data
-            type = form.type.data
-            title = form.title.data
-            description = form.title.data
-            appendContent = {
-                "url": url,
-                "title": title,
-                "author": author,
-                "type": type,
-                "description": description
-            }
-            if id != "New":
-                appendContent["id"] = int(id) + 1
-                ifImgorCanvas(appendContent)
-                gallery_JSON["commissions"][int(id)] = appendContent
+            appendContent = {}
+            if form.id.data != "New":
+                appendContent["id"] = int(form.id.data) + 1
+                dictProcess(appendContent)
+                gallery_JSON["commissions"][int(form.id.data)] = appendContent
             else:
                 appendContent["id"] = len(gallery_JSON["commissions"])+1
-                ifImgorCanvas(appendContent)
+                dictProcess(appendContent)
                 gallery_JSON["commissions"].append(appendContent)
 
             with open('gallery_list.json', 'w', encoding='utf-8') as f:
