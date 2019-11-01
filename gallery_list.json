@@ -8,10 +8,9 @@
         {
             "id": 1,
             "url": "//i.loli.net/2019/10/23/RhX7HImqBzleNLc.png",
-            "title": "设定图",
-            "author": "Twitter:@natsutyu",
             "type": "Reference-Sheet",
-            "description": "设定图"
+            "title": "设定图",
+            "author": "Twitter:@natsutyu"
         },
         {
             "id": 2,
@@ -45,15 +44,14 @@
             "id": 4,
             "url": "//i.loli.net/2019/10/25/Rda8CStGEL6oy1j.jpg",
             "thumbnailInfo": {
-                "beginPointX": "70",
-                "beginPointY": "100",
-                "cutWidth": "394",
-                "cutHeight": "223"
+                "beginPointX": "58",
+                "beginPointY": "79",
+                "cutWidth": "367",
+                "cutHeight": "303"
             },
-            "title": "圣诞主题",
-            "author": "@xxshirounagi",
             "type": "Illustration",
-            "description": "Christmas"
+            "title": "圣诞主题",
+            "author": "@xxshirounagi"
         },
         {
             "id": 5,
@@ -64,9 +62,9 @@
                 "cutWidth": "358",
                 "cutHeight": "270"
             },
-            "author": "2",
             "type": "3",
-            "title": "1"
+            "title": "1",
+            "author": "2"
         }
     ]
 }

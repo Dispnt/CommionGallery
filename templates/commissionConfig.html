@@ -20,9 +20,9 @@
         }
 
         $(document).ready(function () {
-            var canvas = document.getElementById("posCanvas")
+            let canvas = document.getElementById("posCanvas")
             canvas.addEventListener('mousedown', function (e) {
-                canvas.getContext('2d').clearRect($("#imgStartPointX").val(),$("#imgStartPointY").val(),$("#SelectWidth").val(),$("#SelectHeight").val())
+                canvas.getContext('2d').clearRect($("#imgStartPointX").val(), $("#imgStartPointY").val(), $("#SelectWidth").val(), $("#SelectHeight").val())
                 genThumbnail($("#url").val())
                 $("#imgStartPointX").val(e.offsetX)
                 $("#imgStartPointY").val(e.offsetY)
@@ -33,35 +33,35 @@
                 $("#SelectWidth").val(Math.abs($("#imgStartPointX").val() * 1 - $("#imgEndPointX").val() * 1))
                 $("#SelectHeight").val(Math.abs($("#imgStartPointY").val() * 1 - $("#imgEndPointY").val() * 1))
                 let canvascontext = document.getElementById("posCanvas").getContext('2d')
-                canvascontext.strokeRect($("#imgStartPointX").val(),$("#imgStartPointY").val(),$("#SelectWidth").val(),$("#SelectHeight").val());
+                canvascontext.strokeRect($("#imgStartPointX").val(), $("#imgStartPointY").val(), $("#SelectWidth").val(), $("#SelectHeight").val());
             })
         })
 
         function loadImgJson(commID) {
-            if(typeof commID =="number")
-            {
-                commID = commID-1
-                $.getJSON('/gallery_list',function (data) {
-                $("#id").val(commID)
-                $("#url").val(data["commissions"][commID]["url"])
-                $("#title").val(data["commissions"][commID]["title"])
-                $("#author").val(data["commissions"][commID]["author"])
-                $("#type").val(data["commissions"][commID]["type"])
-                if(data["commissions"][commID]["thumbnailInfo"]) {
-                    $("#imgStartPointX").val(data["commissions"][commID]["thumbnailInfo"]["beginPointX"])
-                    $("#imgStartPointY").val(data["commissions"][commID]["thumbnailInfo"]["beginPointY"])
-                    $("#SelectWidth").val(data["commissions"][commID]["thumbnailInfo"]["cutWidth"])
-                    $("#SelectHeight").val(data["commissions"][commID]["thumbnailInfo"]["cutHeight"])
-                    $("#imgEndPointX").val(Math.abs($("#imgStartPointX").val() * 1 - $("#SelectWidth").val() * 1))
-                    $("#imgEndPointY").val(Math.abs($("#imgStartPointY").val() * 1 - $("#SelectHeight").val() * 1))
-                    genThumbnail($("#url").val())
-                }
-
+            if (typeof commID == "number") {
+                commID = commID - 1
+                $.getJSON('/gallery_list', function (data) {
+                    $("#id").val(commID)
+                    let dataCommID = data["commissions"][commID]
+                    $("#url").val(dataCommID["url"])
+                    $("#title").val(dataCommID["title"])
+                    $("#author").val(dataCommID["author"])
+                    $("#type").val(dataCommID["type"])
+                    let canvas = document.getElementById("posCanvas").getContext('2d')
+                    canvas.clearRect(0,0,999,999)
+                    let dataCommThuInfo = dataCommID["thumbnailInfo"]
+                    if (dataCommThuInfo) {
+                        $("#imgStartPointX").val(dataCommThuInfo["beginPointX"])
+                        $("#imgStartPointY").val(dataCommThuInfo["beginPointY"])
+                        $("#SelectWidth").val(dataCommThuInfo["cutWidth"])
+                        $("#SelectHeight").val(dataCommThuInfo["cutHeight"])
+                        $("#imgEndPointX").val(Math.abs($("#imgStartPointX").val() * 1 - $("#SelectWidth").val() * 1))
+                        $("#imgEndPointY").val(Math.abs($("#imgStartPointY").val() * 1 - $("#SelectHeight").val() * 1))
+                        genThumbnail($("#url").val())
+                    }
                 })
-            $("#inputForm").show();
-            }
-            else
-            {
+                $("#inputForm").show();
+            } else {
                 $("#id").val("New");
                 $(".CommInfoInput").val('')
                 $("#inputForm").show();
@@ -83,13 +83,14 @@
                             <p>{{ commission["title"] }}</p>
                         </div>
                         <div class="card-action">
-                            <a href="javascript:void(0);" onclick="loadImgJson({{ commission["id"] }});$('.CommInfoInput').val('');console.log('{{ commission["id"] }}');">Config...</a>
+                            <a href="javascript:void(0);"
+                               onclick="loadImgJson({{ commission["id"] }});$('.CommInfoInput').val('');console.log('{{ commission["id"] }}');">Config...</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
             <div class="col xl6 l12 s12">
-                <div class="card-panel teal waves-effect waves-light red" onclick="loadImgJson('nmsl')">
+                <div class="card-panel teal waves-effect waves-light red" onclick="loadImgJson('add')">
                     <span class="white-text">也可以自己添加</span>
                 </div>
             </div>
