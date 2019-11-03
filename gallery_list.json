@@ -16,15 +16,14 @@
             "id": 2,
             "url": "//i.loli.net/2019/10/24/3kvxhcV7H1RowXK.jpg",
             "thumbnailInfo": {
-                "beginPointX": 161,
-                "beginPointY": 66,
-                "cutWidth": 360,
-                "cutHeight": 206
+                "beginPointX": "62",
+                "beginPointY": "83",
+                "cutWidth": "365",
+                "cutHeight": "203"
             },
             "type": "Illustration",
             "title": "博客和名片的头图",
-            "author": "@furry_suzu",
-            "description": "Illustration for blog and name card"
+            "author": "@furry_suzu"
         },
         {
             "id": 3,
@@ -44,10 +43,10 @@
             "id": 4,
             "url": "//i.loli.net/2019/10/25/Rda8CStGEL6oy1j.jpg",
             "thumbnailInfo": {
-                "beginPointX": "58",
-                "beginPointY": "79",
-                "cutWidth": "367",
-                "cutHeight": "303"
+                "beginPointX": "55",
+                "beginPointY": "80",
+                "cutWidth": "386",
+                "cutHeight": "251"
             },
             "type": "Illustration",
             "title": "圣诞主题",
@@ -56,12 +55,6 @@
         {
             "id": 5,
             "url": "//i.loli.net/2019/10/31/yqEpHrxW7KIaR9A.jpg",
-            "thumbnailInfo": {
-                "beginPointX": "73",
-                "beginPointY": "133",
-                "cutWidth": "358",
-                "cutHeight": "270"
-            },
             "type": "3",
             "title": "1",
             "author": "2"

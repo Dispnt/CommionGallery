@@ -1,9 +1,32 @@
-from flask import Flask, render_template, json
-from datetime import timedelta
+from flask import Flask, render_template, json, Response, redirect, request,  abort
+from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import json
+
+
+class NameForm(FlaskForm):
+    id = StringField('id', validators=[DataRequired()])
+    url = StringField('图床链接', validators=[DataRequired()])
+    author = StringField('画师')
+    type = StringField('类型')
+    title = StringField('标题')
+    thumbnailBX = StringField('起始X坐标')
+    thumbnailBY = StringField('起始Y坐标')
+    thumbnailWidth = StringField('选取宽度(px)')
+    thumbnailHeight = StringField('选取高度(px)')
+    submit = SubmitField('提交')
+
+
+class User(UserMixin):
+    def __init__(self, id):
+        self.id = id
+        self.name = "user" + str(id)
+        self.password = self.name + "_secret"
+
+    def __repr__(self):
+        return "%d/%s/%s" % (self.id, self.name, self.password)
 
 
 def dictProcess(appendContent):
@@ -21,30 +44,15 @@ def dictProcess(appendContent):
     appendContent["author"] = form.author.data
 
 
-class NameForm(FlaskForm):
-    id = StringField('id', validators=[DataRequired()])
-    url = StringField('图床链接', validators=[DataRequired()])
-    author = StringField('画师')
-    type = StringField('类型')
-    title = StringField('标题')
-    thumbnailBX = StringField('起始X坐标')
-    thumbnailBY = StringField('起始Y坐标')
-    thumbnailWidth = StringField('选取宽度(px)')
-    thumbnailHeight = StringField('选取高度(px)')
-    submit = SubmitField('提交')
-
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456'
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = timedelta(seconds=1)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 with open('gallery_list.json', encoding='utf-8') as f:
     gallery_JSON = json.load(f)
-
-
-@app.route('/gallery_list')
-def gallery_json():
-    return json.dumps(gallery_JSON)
 
 
 @app.route('/')
@@ -52,13 +60,20 @@ def index():
     return render_template('index.html', gallery_Json=gallery_JSON)
 
 
+@app.route('/gallery_list')
+def gallery_json():
+    return json.dumps(gallery_JSON)
+
+
 @app.route('/config')
+@login_required
 def configpage():
     form = NameForm()
     return render_template('commissionConfig.html', gallery_Json=gallery_JSON, form=form)
 
 
 @app.route('/config', methods=['GET', 'POST'])
+@login_required
 def opForm():
     form = NameForm()
     if form.validate_on_submit():
@@ -78,6 +93,42 @@ def opForm():
             return render_template('commissionConfig.html', gallery_Json=gallery_JSON, form=form)
 
         return ('', 204)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username == 'username' and password == 'password':
+            id = username.split('user')[0]
+            user = User(id)
+            login_user(user)
+            return redirect(request.args.get("next"))
+        else:
+            return abort(401)
+    else:
+        return render_template('Login.html')
+
+
+# somewhere to logout
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return Response('<p>Logged out</p>')
+
+
+# handle login failed
+@app.errorhandler(401)
+def page_not_found(e):
+    return Response('<p>Login failed</p>')
+
+
+# callback to reload the user object
+@login_manager.user_loader
+def load_user(userid):
+    return User(userid)
 
 
 if __name__ == '__main__':
