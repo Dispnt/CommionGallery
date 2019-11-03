@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, Response, redirect, request,  abort
+from flask import Flask, render_template, json, Response, redirect, request, abort
 from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
@@ -110,22 +110,16 @@ def login():
     else:
         return render_template('Login.html')
 
-
-# somewhere to logout
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return Response('<p>Logged out</p>')
+    return Response('Logged Out')
 
-
-# handle login failed
 @app.errorhandler(401)
 def page_not_found(e):
     return Response('<p>Login failed</p>')
 
-
-# callback to reload the user object
 @login_manager.user_loader
 def load_user(userid):
     return User(userid)
