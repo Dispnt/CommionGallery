@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <script src="https://cdn.bootcss.com/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <link href="https://cdn.bootcss.com/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
@@ -43,13 +43,15 @@
                 commID = commID - 1
                 $.getJSON('/gallery_list', function (data) {
                     $("#id").val(commID)
+                    $(".CommInfoInput").val('')
+                    $('#sketches').html(' ')
                     let dataCommID = data["commissions"][commID]
-                    $("#url").val(dataCommID["url"])
+                    $("#url").val(dataCommID["url"][0])
                     $("#title").val(dataCommID["title"])
                     $("#author").val(dataCommID["author"])
                     $("#type").val(dataCommID["type"])
                     let canvas = document.getElementById("posCanvas").getContext('2d')
-                    canvas.clearRect(0,0,999,999)
+                    canvas.clearRect(0, 0, 999, 999)
                     let dataCommThuInfo = dataCommID["thumbnailInfo"]
                     if (dataCommThuInfo) {
                         $("#imgStartPointX").val(dataCommThuInfo["beginPointX"])
@@ -58,7 +60,17 @@
                         $("#SelectHeight").val(dataCommThuInfo["cutHeight"])
                         $("#imgEndPointX").val(Math.abs($("#imgStartPointX").val() * 1 - $("#SelectWidth").val() * 1))
                         $("#imgEndPointY").val(Math.abs($("#imgStartPointY").val() * 1 - $("#SelectHeight").val() * 1))
-                        genThumbnail($("#url").val())
+                    }
+                    genThumbnail($("#url").val());
+                    if (dataCommID["url"][1]) {
+                        let sketchesContent = ''
+                        for (let i = 1; i < dataCommID["url"].length; i++) {
+                            sketchesContent += '<div class="col s6 card"><div class="card-image">' +
+                                '<img src="' + dataCommID["url"][i] + '">' +
+                                '<span class="card-title" >'+ i +'</span></div>' +
+                                '<div class="card-content"><input value="' + dataCommID["url"][i] +'"></div></div>'
+                        }
+                       $('#sketches').html(sketchesContent)
                     }
                 })
                 $("#inputForm").show();
@@ -78,14 +90,14 @@
                 <div class="col xl6 l6 s12 ">
                     <div class="card small">
                         <div class="card-image ">
-                            <img src="{{ commission["url"] }}">
+                            <img src="{{ commission["url"][0] }}">
                         </div>
                         <div class="card-content">
                             <p>{{ commission["title"] }}</p>
                         </div>
                         <div class="card-action">
                             <a href="javascript:void(0);"
-                               onclick="loadImgJson({{ commission["id"] }});$('.CommInfoInput').val('');console.log('{{ commission["id"] }}');">Config...</a>
+                               onclick="loadImgJson({{ commission["id"] }});">Config...</a>
                         </div>
                     </div>
                 </div>
@@ -154,6 +166,13 @@
                             {{ form.thumbnailHeight.label() }}
                         </div>
                     </div>
+                </div>
+                <div id="sketches" class="row">
+                    <div class="col s4 card"><div class="card-image">
+                                <img src="http://i.loli.net/2019/11/03/BEraz2ZvTiDn1t6.png ">
+                                <li class="collection-item avatar">
+                                <span class="card-title" >1</span></div>
+                                <div class="card-content"><input value="http://i.loli.net/2019/11/03/BEraz2ZvTiDn1t6.png"></div></div>
                 </div>
                 <input class="btn waves-effect waves-light red lighten-2" id="submit" name="submit" type="submit">
             </form>

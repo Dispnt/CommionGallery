@@ -61,9 +61,9 @@
             <a class="gallery-cover gray">
                 {% if commission["thumbnailInfo"] %}
                     <canvas class="responsive-img" id="Thumbnail-{{ commission["id"] }}"></canvas>
-                    <script>genThumbnail("Thumbnail-{{ commission['id'] }}","{{ commission["url"] }}",{{commission["thumbnailInfo"]["beginPointX"]}},{{commission["thumbnailInfo"]["beginPointY"]}},{{commission["thumbnailInfo"]["cutWidth"]}},{{commission["thumbnailInfo"]["cutHeight"]}})</script>
+                    <script>genThumbnail("Thumbnail-{{ commission['id'] }}","{{ commission["url"][0] }}",{{commission["thumbnailInfo"]["beginPointX"]}},{{commission["thumbnailInfo"]["beginPointY"]}},{{commission["thumbnailInfo"]["cutWidth"]}},{{commission["thumbnailInfo"]["cutHeight"]}})</script>
                 {% else %}
-                    <img class="responsive-img" src="{{ commission["url"] }}" alt="placeholder">
+                    <img class="responsive-img" src="{{ commission["url"][0] }}" alt="placeholder">
                 {% endif %}
             </a>
             <div class="gallery-header">
@@ -79,15 +79,16 @@
                     {{ commission["description"] }}
                 </p>
                 {% endif %}
-{#                <div class="carousel-wrapper">#}
-{#                    <div class="carousel">#}
-{#                        <a class="carousel-item" href="#one!"><img src="http://placehold.it/300x200"></a>#}
-{#                        <a class="carousel-item" href="#two!"><img src="http://placehold.it/300x200"></a>#}
-{#                        <a class="carousel-item" href="#three!"><img src="http://placehold.it/300x200"></a>#}
-{#                        <a class="carousel-item" href="#four!"><img src="http://placehold.it/300x200"></a>#}
-{#                        <a class="carousel-item" href="#five!"><img src="http://placehold.it/300x200"></a>#}
-{#                    </div>#}
-{#                </div>#}
+                {% if commission["url"][1] %}
+
+                        <div class="carousel-wrapper">
+                            <div class="carousel">
+                                {% for sketch in commission['url'] %}
+                                <a class="carousel-item" href="#one!"><img src="{{ sketch }}"></a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                 {% endif %}
             </div>
     </div>
 

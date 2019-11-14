@@ -1,63 +1,76 @@
 {
-    "album": {
-        "greeting": "1",
-        "name": "fofu",
-        "tagline": "Commission Gallery in Flask"
+  "album": {
+    "greeting": "1",
+    "name": "fofu",
+    "tagline": "Commission Gallery in Flask"
+  },
+  "commissions": [
+    {
+      "id": 1,
+      "url": [
+        "//i.loli.net/2019/11/03/rL4RW3S1aIFmPUT.png",
+        "//i.loli.net/2019/11/03/BEraz2ZvTiDn1t6.png",
+        "//i.loli.net/2019/11/03/npxEMs5wY8Hdyqv.png",
+        "//i.loli.net/2019/11/03/PCOhDYFXzfjaJWy.png"
+      ],
+      "type": "Reference-Sheet",
+      "title": "设定图",
+      "author": "Twitter:@natsutyu"
     },
-    "commissions": [
-        {
-            "id": 1,
-            "url": "//i.loli.net/2019/10/23/RhX7HImqBzleNLc.png",
-            "type": "Reference-Sheet",
-            "title": "设定图",
-            "author": "Twitter:@natsutyu"
-        },
-        {
-            "id": 2,
-            "url": "//i.loli.net/2019/10/24/3kvxhcV7H1RowXK.jpg",
-            "thumbnailInfo": {
-                "beginPointX": "62",
-                "beginPointY": "83",
-                "cutWidth": "365",
-                "cutHeight": "203"
-            },
-            "type": "Illustration",
-            "title": "博客和名片的头图",
-            "author": "@furry_suzu"
-        },
-        {
-            "id": 3,
-            "url": "//i.loli.net/2019/10/24/t7F6yj4VOmNUacK.jpg",
-            "thumbnailInfo": {
-                "beginPointX": 69,
-                "beginPointY": 102,
-                "cutWidth": 360,
-                "cutHeight": 293
-            },
-            "type": "YCH",
-            "title": "???",
-            "author": "木澍",
-            "description": "??????"
-        },
-        {
-            "id": 4,
-            "url": "//i.loli.net/2019/10/25/Rda8CStGEL6oy1j.jpg",
-            "thumbnailInfo": {
-                "beginPointX": "55",
-                "beginPointY": "80",
-                "cutWidth": "386",
-                "cutHeight": "251"
-            },
-            "type": "Illustration",
-            "title": "圣诞主题",
-            "author": "@xxshirounagi"
-        },
-        {
-            "id": 5,
-            "url": "//i.loli.net/2019/10/31/yqEpHrxW7KIaR9A.jpg",
-            "type": "3",
-            "title": "1",
-            "author": "2"
-        }
-    ]
+    {
+      "id": 2,
+      "url": [
+        "//i.loli.net/2019/10/24/3kvxhcV7H1RowXK.jpg"
+      ],
+      "thumbnailInfo": {
+        "beginPointX": "62",
+        "beginPointY": "83",
+        "cutWidth": "365",
+        "cutHeight": "203"
+      },
+      "type": "Illustration",
+      "title": "博客和名片的头图",
+      "author": "@furry_suzu"
+    },
+    {
+      "id": 3,
+      "url": [
+        "//i.loli.net/2019/10/24/t7F6yj4VOmNUacK.jpg"
+      ],
+      "thumbnailInfo": {
+        "beginPointX": 69,
+        "beginPointY": 102,
+        "cutWidth": 360,
+        "cutHeight": 293
+      },
+      "type": "YCH",
+      "title": "???",
+      "author": "木澍",
+      "description": "??????"
+    },
+    {
+      "id": 4,
+      "url": [
+        "//i.loli.net/2019/10/25/Rda8CStGEL6oy1j.jpg"
+      ],
+      "thumbnailInfo": {
+        "beginPointX": "55",
+        "beginPointY": "80",
+        "cutWidth": "386",
+        "cutHeight": "251"
+      },
+      "type": "Illustration",
+      "title": "圣诞主题",
+      "author": "@xxshirounagi"
+    },
+    {
+      "id": 5,
+      "url": [
+        "//i.loli.net/2019/10/31/yqEpHrxW7KIaR9A.jpg"
+      ],
+      "type": "3",
+      "title": "1",
+      "author": "2"
+    }
+  ]
 }
